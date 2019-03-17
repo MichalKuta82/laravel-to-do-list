@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Project;
 use App\Task;
+use App\Project;
 
-class ProjectController extends Controller
+class TaskController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -18,7 +17,6 @@ class ProjectController extends Controller
     {
         $this->middleware('auth');
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -27,8 +25,8 @@ class ProjectController extends Controller
     public function index()
     {
         //
-        $projects = Project::paginate(5);
-        return view('projects.index', compact('projects'));
+        $tasks = Task::paginate(5);
+        return view('tasks.index', compact('tasks', 'project'));
     }
 
     /**
@@ -39,7 +37,6 @@ class ProjectController extends Controller
     public function create()
     {
         //
-        return view('projects.create');
     }
 
     /**
@@ -52,16 +49,17 @@ class ProjectController extends Controller
     {
         //
         $request->validate([
-            'project-title' => 'required|min:3',
-            'project-content' => 'required|min:10',
+            'task-title' => 'required|min:3',
+            'task-content' => 'required|min:10',
         ]);
 
-        Auth::user()->projects()->create([
-            'title' => $request->get('project-title'),
-            'content' => $request->get('project-content'),
+        Task::create([
+            'title' => $request->get('task-title'),
+            'content' => $request->get('task-content'),
+            'project_id' => $request->get('project-id')
         ]);
 
-        return redirect('/projects')->with('success', 'Project has been added');
+        return redirect()->back();
     }
 
     /**
@@ -73,9 +71,8 @@ class ProjectController extends Controller
     public function show($id)
     {
         //
-        $project = Project::findOrFail($id);
-        $tasks = Task::query()->where('project_id', $project->id)->paginate(5);
-        return view('projects.show', compact('project', 'tasks'));
+        $task = Task::findOrFail($id);
+        return view('tasks.show')->with('task', $task);
     }
 
     /**
@@ -87,8 +84,6 @@ class ProjectController extends Controller
     public function edit($id)
     {
         //
-        $project = Project::findOrFail($id);
-        return view('projects.edit', compact('project'));
     }
 
     /**
@@ -101,21 +96,6 @@ class ProjectController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $project = Project::findOrFail($id);
-
-        $request->validate([
-            'project-title' => 'required|min:3',
-            'project-content' => 'required|min:10',
-        ]);
-
-        $data = [
-            'title' => $request->get('project-title'),
-            'content' => $request->get('project-content'),
-        ];
-
-        Auth::user()->projects()->whereId($id)->first()->update($data);
-
-        return redirect('/projects')->with('success', 'Project has been added');
     }
 
     /**
@@ -127,10 +107,5 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         //
-        $project = Project::findOrFail($id);
-
-        $project->delete();
-
-        return redirect('/projects');
     }
 }

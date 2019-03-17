@@ -24,8 +24,8 @@
 					  	@foreach($projects as $project)
 					    <tr>
 					      <th scope="row">{{$project->id}}</th>
-					      <td><a href="{{route('projects.show', $project->id)}}">{{$project->title}}</a></td>
-					      <td>{{$project->content}}</td>
+					      <td><a href="{{route('projects.show', $project->id)}}">{{str_limit($project->title, 15)}}</a></td>
+					      <td>{{str_limit($project->content, 55)}}</td>
 					      <td>{{$project->user ? $project->user->name : 'No user'}}</td>
 					      <td>{{count($project->tasks)}}</td>
 					      <td><a href="{{ route('projects.edit', $project->id) }}" class="btn btn-primary btn-sm">Edit</a></td>

@@ -18,7 +18,24 @@ $factory->define(App\User::class, function (Faker $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
-        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+        'password' => bcrypt(str_random(10)), // secret
         'remember_token' => str_random(10),
+    ];
+});
+
+$factory->define(App\Project::class, function (Faker $faker) {
+    return [
+        'user_id' => $faker->numberBetween(1,10),
+        'title' => $faker->sentence(7,11),
+        'content' => $faker->paragraphs(rand(1,5), true),
+    ];
+});
+
+$factory->define(App\Task::class, function (Faker $faker) {
+    return [
+        'project_id' => $faker->numberBetween(1,10),
+        'title' => $faker->sentence(7,11),
+        'content' => $faker->paragraphs(rand(1,5), true),
+        'status' => $faker->boolean($chanceOfGettingTrue = 80),
     ];
 });
