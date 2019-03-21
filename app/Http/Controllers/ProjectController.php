@@ -128,7 +128,6 @@ class ProjectController extends Controller
     {
         //
         $project = Project::findOrFail($id);
-
         $project->delete();
 
         return redirect('/projects');
