@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-12">
+        <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Create Task</div>
 
@@ -18,15 +18,15 @@
 				      </div><br />
 				    @endif
 				      <form method="POST" action="{{ route('tasks.store') }}">
-				      	  <input type="hidden" name="project-id" value="{{$project->id}}">
+				      	  <input type="hidden" name="project-id" value="{{$project_id}}">
 				          <div class="form-group">
 				              @csrf
 				              <label for="title">Task Name:</label>
-				              <input type="text" class="form-control" name="task-title"/>
+				              <input type="text" class="form-control" name="task-title" required/>
 				          </div>
 				          <div class="form-group">
 				              <label for="content">Task Content:</label>
-				              <textarea rows="4" class="form-control" name="task-content"/>
+				              <textarea rows="4" class="form-control" name="task-content" required/>
 				          	  </textarea>
 				          </div>
 				          <button type="submit" class="btn btn-primary">Create Task</button>

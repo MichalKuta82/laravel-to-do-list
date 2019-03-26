@@ -35,9 +35,10 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($project_id)
     {
         //
+        return view('tasks.create')->with('project_id', $project_id);
     }
 
     /**
@@ -60,7 +61,7 @@ class TaskController extends Controller
             'project_id' => $request->get('project-id')
         ]);
 
-        return redirect()->back();
+        return  redirect()->to('/projects');
     }
 
     /**

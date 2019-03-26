@@ -32,9 +32,10 @@ Route::resource('/projects', 'ProjectController', ['names' => [
 Route::resource('/tasks', 'TaskController', ['names' => [
 		'index' => 'tasks.index',
 		'edit' => 'tasks.edit',
-		'create' => 'tasks.create',
 		'store' => 'tasks.store',
 		'destroy' => 'tasks.destroy',
 		'show' => 'tasks.show',
 		'update' => 'tasks.update',
 	]]);
+
+Route::get('projects/{project_id}/tasks/create', 'TaskController@create')->name('tasks.create');
